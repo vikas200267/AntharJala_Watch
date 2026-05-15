@@ -1,0 +1,13 @@
+{
+  "name": "anthar-jala-shared",
+  "version": "1.0.0",
+  "description": "Shared utilities for Lambda functions",
+  "main": "index.js",
+  "dependencies": {
+    "aws-sdk": "^2.1490.0",
+    "firebase-admin": "^11.11.1"
+  },
+  "keywords": ["aws", "lambda", "shared", "utilities"],
+  "author": "Anthar-Jala Watch",
+  "license": "MIT"
+}

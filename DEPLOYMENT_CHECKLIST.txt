@@ -1,0 +1,249 @@
+================================================================================
+ANTHAR-JALA WATCH - DEPLOYMENT CHECKLIST
+================================================================================
+
+CURRENT STATUS: Backend code ready, NOT deployed. Frontend ready, NOT connected.
+
+================================================================================
+PHASE 1: BACKEND DEPLOYMENT (30 minutes)
+================================================================================
+
+[ ] 1. Deploy Lambda Functions to AWS
+    Method: Choose one
+    [ ] Option A: Terraform (cd backend/infrastructure/terraform && terraform apply)
+    [ ] Option B: PowerShell script (cd backend && .\deploy-lambda-functions.ps1)
+    [ ] Option C: Manual AWS Console
+
+[ ] 2. Create DynamoDB Tables
+    [ ] BorewellLogs (Primary: geohash, Sort: timestamp)
+    [ ] HeatmapCache (Primary: geohash)
+    [ ] Alerts (Primary: alertId)
+    [ ] UserProfiles (Primary: userId)
+    [ ] WebSocketConnections (Primary: connectionId)
+    [ ] AILearningData (Primary: queryId)
+
+[ ] 3. Create API Gateway REST API
+    [ ] Create API
+    [ ] Add routes: /health, /api/v1/borewell, /api/v1/heatmap, etc.
+    [ ] Link to Lambda functions
+    [ ] Deploy to 'prod' stage
+    [ ] Note API Gateway URL: _________________________________
+
+[ ] 4. Create API Gateway WebSocket API
+    [ ] Create WebSocket API
+    [ ] Add routes: $connect, $disconnect, subscribe, aiChat
+    [ ] Link to websocket-handler Lambda
+    [ ] Deploy to 'prod' stage
+    [ ] Note WebSocket URL: _________________________________
+
+[ ] 5. Add Bedrock IAM Permissions
+    [ ] Find Lambda execution role
+    [ ] Add inline policy: BedrockInvokeModelPolicy
+    [ ] Allow: bedrock:InvokeModel
+    [ ] Resource: arn:aws:bedrock:us-east-1:260932761099:inference-profile/us.anthropic.claude-sonnet-4-20250514-v1:0
+
+[ ] 6. Test Backend Deployment
+    [ ] curl https://YOUR_API_URL/health
+    [ ] aws lambda invoke --function-name ai-realtime-engine response.json
+    [ ] Check CloudWatch logs for errors
+
+================================================================================
+PHASE 2: FIREBASE CONFIGURATION (10 minutes)
+================================================================================
+
+[ ] 7. Create Firebase Project
+    [ ] Go to: https://console.firebase.google.com/
+    [ ] Click "Add project"
+    [ ] Name: anthar-jala-watch
+    [ ] Enable Google Analytics (optional)
+
+[ ] 8. Enable Phone Authentication
+    [ ] Go to: Authentication → Sign-in method
+    [ ] Enable "Phone" provider
+    [ ] Add test phone numbers (for development):
+        Phone: +91 9999999999, Code: 123456
+
+[ ] 9. Add Android App to Firebase
+    [ ] Click "Add app" → Android
+    [ ] Package name: com.antharjala.watch
+    [ ] Download google-services.json
+    [ ] Copy to: app/google-services.json
+
+[ ] 10. Get Firebase Service Account Credentials
+    [ ] Go to: Project Settings → Service Accounts
+    [ ] Click "Generate new private key"
+    [ ] Download JSON file
+    [ ] Extract values:
+        FIREBASE_PROJECT_ID: _________________________________
+        FIREBASE_CLIENT_EMAIL: _________________________________
+        FIREBASE_PRIVATE_KEY: _________________________________
+
+================================================================================
+PHASE 3: API KEYS (5 minutes)
+================================================================================
+
+[ ] 11. Get Gemini API Key (FREE)
+    [ ] Go to: https://makersuite.google.com/app/apikey
+    [ ] Click "Create API Key"
+    [ ] Copy key: _________________________________
+
+[ ] 12. Get Google Maps API Key (FREE tier)
+    [ ] Go to: https://console.cloud.google.com/google/maps-apis
+    [ ] Enable "Maps SDK for Android"
+    [ ] Create API Key
+    [ ] Restrict to Android apps
+    [ ] Copy key: _________________________________
+
+[ ] 13. Get OpenWeatherMap API Key (Optional)
+    [ ] Go to: https://openweathermap.org/api
+    [ ] Sign up for free account
+    [ ] Copy key: _________________________________
+
+================================================================================
+PHASE 4: BACKEND ENVIRONMENT VARIABLES (5 minutes)
+================================================================================
+
+[ ] 14. Set Environment Variables on ALL Lambda Functions
+    Use AWS Console or CLI to add these to EVERY Lambda function:
+
+    Essential:
+    [ ] GEMINI_API_KEY=_________________________________
+    [ ] FIREBASE_PROJECT_ID=_________________________________
+    [ ] FIREBASE_CLIENT_EMAIL=_________________________________
+    [ ] FIREBASE_PRIVATE_KEY=_________________________________
+
+    Tables:
+    [ ] BOREWELL_TABLE=BorewellLogs
+    [ ] HEATMAP_CACHE_TABLE=HeatmapCache
+    [ ] ALERTS_TABLE=Alerts
+    [ ] USER_PROFILES_TABLE=UserProfiles
+    [ ] CONNECTIONS_TABLE=WebSocketConnections
+    [ ] LEARNING_TABLE=AILearningData
+
+    Buckets:
+    [ ] MEDIA_BUCKET=anthar-jala-media
+    [ ] ANALYTICS_BUCKET=anthar-jala-analytics
+
+    Optional:
+    [ ] SAGEMAKER_ENDPOINT=anthar-jala-xgboost-endpoint
+    [ ] OPENWEATHER_API_KEY=_________________________________
+
+================================================================================
+PHASE 5: FRONTEND CONFIGURATION (5 minutes)
+================================================================================
+
+[ ] 15. Add google-services.json to Android App
+    [ ] Copy downloaded file to: app/google-services.json
+    [ ] Verify file exists: ls app/google-services.json
+
+[ ] 16. Update WebSocket URL in Frontend
+    [ ] Edit: app/src/main/java/com/antharjala/watch/core/network/WebSocketManager.kt
+    [ ] Line 23: Update WS_URL with your WebSocket API URL
+    [ ] private const val WS_URL = "wss://YOUR_WS_ID.execute-api.us-east-1.amazonaws.com/prod"
+
+[ ] 17. Add Google Maps API Key to AndroidManifest.xml
+    [ ] Edit: app/src/main/AndroidManifest.xml
+    [ ] Add inside <application> tag:
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="YOUR_GOOGLE_MAPS_API_KEY"/>
+
+[ ] 18. Verify API Gateway URL in NetworkModule
+    [ ] Edit: app/src/main/java/com/antharjala/watch/core/network/NetworkModule.kt
+    [ ] Line 28: Verify BASE_URL matches your deployed API Gateway
+    [ ] private const val BASE_URL = "https://YOUR_API_ID.execute-api.us-east-1.amazonaws.com/prod/"
+
+================================================================================
+PHASE 6: BUILD AND TEST (10 minutes)
+================================================================================
+
+[ ] 19. Build Android App
+    [ ] ./gradlew clean
+    [ ] ./gradlew assembleDebug
+    [ ] Check for build errors
+
+[ ] 20. Install on Device
+    [ ] adb devices (verify device connected)
+    [ ] adb install app/build/outputs/apk/debug/app-debug.apk
+
+[ ] 21. Test Authentication
+    [ ] Open app
+    [ ] Enter phone number (real or test number)
+    [ ] Receive OTP via SMS (or use test OTP: 123456)
+    [ ] Verify login succeeds
+    [ ] Check Logcat for "User authenticated: uid=xxxxx"
+
+[ ] 22. Test API Connectivity
+    [ ] Submit borewell data
+    [ ] Check if data appears in backend
+    [ ] View history screen
+    [ ] Check map screen for heatmap
+    [ ] Test AI recommendations
+
+[ ] 23. Test Real-Time Features
+    [ ] Check WebSocket connection in Logcat
+    [ ] Verify live heatmap updates
+    [ ] Test real-time alerts
+
+[ ] 24. Monitor Backend
+    [ ] Check CloudWatch logs for errors
+    [ ] Monitor Lambda invocations
+    [ ] Check DynamoDB for stored data
+    [ ] Verify Bedrock API calls
+
+================================================================================
+PHASE 7: PRODUCTION READINESS (Optional)
+================================================================================
+
+[ ] 25. Setup Monitoring
+    [ ] CloudWatch dashboards
+    [ ] Billing alerts
+    [ ] Error notifications
+
+[ ] 26. Security Hardening
+    [ ] Review IAM policies
+    [ ] Enable AWS WAF
+    [ ] Setup API rate limiting
+    [ ] Add certificate pinning
+
+[ ] 27. Performance Optimization
+    [ ] Enable Lambda provisioned concurrency
+    [ ] Add CloudFront CDN
+    [ ] Optimize DynamoDB capacity
+
+[ ] 28. Documentation
+    [ ] Update API documentation
+    [ ] Create user guide
+    [ ] Document deployment process
+
+================================================================================
+COMPLETION CHECKLIST
+================================================================================
+
+When ALL items above are checked, you will have:
+✅ Fully deployed AWS backend with 10 Lambda functions
+✅ Real Firebase authentication with OTP
+✅ Real API calls to AWS backend
+✅ Real AI recommendations (Gemini + Bedrock Claude)
+✅ Real-time heatmap updates via WebSocket
+✅ Real data storage and sync
+✅ Production-ready Android app
+
+================================================================================
+ESTIMATED TIME: 50-60 minutes total
+ESTIMATED COST: $20-30/month (testing), $105-145/month (production with 1000 users)
+================================================================================
+
+NOTES:
+- Keep this checklist updated as you complete items
+- Save API keys and URLs in a secure location
+- Test thoroughly before production deployment
+- Monitor costs in AWS Billing Dashboard
+
+For detailed instructions, see:
+- DEPLOYMENT_READY_SUMMARY.md
+- QUICK_START_DEPLOYMENT.md
+- AWS_BEDROCK_INTEGRATION_STATUS.md
+- API_KEYS_AND_REALTIME_DATA_SOURCES.md
+
+================================================================================

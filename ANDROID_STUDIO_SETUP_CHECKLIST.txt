@@ -1,0 +1,183 @@
+═══════════════════════════════════════════════════════════════════
+  ANTHAR-JALA WATCH - ANDROID STUDIO SETUP CHECKLIST
+═══════════════════════════════════════════════════════════════════
+
+📋 PRE-INSTALLATION CHECKLIST
+═══════════════════════════════════════════════════════════════════
+
+□ Android Studio installed (Hedgehog 2023.1.1 or later)
+□ JDK 17 installed
+□ At least 8 GB RAM available
+□ At least 10 GB disk space free
+□ Internet connection active
+
+═══════════════════════════════════════════════════════════════════
+📱 STEP-BY-STEP INSTALLATION GUIDE
+═══════════════════════════════════════════════════════════════════
+
+STEP 1: OPEN PROJECT
+═══════════════════════════════════════════════════════════════════
+□ Launch Android Studio
+□ Click "File" → "Open"
+□ Navigate to: C:\Users\Admin\Downloads\anthar__jala_watch
+□ Click "OK"
+□ Wait for Gradle sync (2-5 minutes)
+□ Check bottom panel - should say "Gradle sync finished"
+
+STEP 2: CONFIGURE FIREBASE
+═══════════════════════════════════════════════════════════════════
+□ Go to: https://console.firebase.google.com/
+□ Create new project or select existing
+□ Click "Add app" → Android icon
+□ Package name: com.antharjala.watch
+□ Download google-services.json
+□ Replace file at: app/google-services.json
+□ Enable Phone Authentication:
+  □ Firebase Console → Authentication → Sign-in method
+  □ Enable "Phone" provider
+  □ Add test phone number (optional): +1 650-555-1234, code: 123456
+
+STEP 3: CONFIGURE GOOGLE MAPS
+═══════════════════════════════════════════════════════════════════
+□ Go to: https://console.cloud.google.com/
+□ Enable "Maps SDK for Android"
+□ Create API key
+□ Open/create file: local.properties (in project root)
+□ Add line: MAPS_API_KEY=YOUR_API_KEY_HERE
+□ Save file
+
+STEP 4: CREATE EMULATOR
+═══════════════════════════════════════════════════════════════════
+□ Click "Tools" → "Device Manager"
+□ Click "Create Device"
+□ Select: Pixel 6 (or any phone)
+□ Click "Next"
+□ Select: API Level 34 (Android 14)
+□ Download if needed (click "Download" button)
+□ Click "Next"
+□ Name: Pixel_6_API_34
+□ Click "Show Advanced Settings"
+□ Set RAM: 4096 MB
+□ Set Internal Storage: 2048 MB
+□ Click "Finish"
+
+STEP 5: BUILD PROJECT
+═══════════════════════════════════════════════════════════════════
+□ Click "Build" → "Clean Project"
+□ Wait for completion (~30 seconds)
+□ Click "Build" → "Rebuild Project"
+□ Wait for build (~2-5 minutes)
+□ Check "Build" tab - should say "BUILD SUCCESSFUL"
+□ No errors in "Build" output
+
+STEP 6: RUN APP
+═══════════════════════════════════════════════════════════════════
+□ Select emulator from dropdown (top toolbar)
+□ Click green "Run" button (▶️) or press Shift+F10
+□ Wait for emulator to start (1-2 minutes)
+□ Wait for app installation
+□ App should launch automatically
+□ You should see the Login screen
+
+STEP 7: CONFIGURE EMULATOR LOCATION
+═══════════════════════════════════════════════════════════════════
+□ Click "..." (three dots) on emulator sidebar
+□ Go to "Location" tab
+□ Enter coordinates:
+  Latitude: 12.9716
+  Longitude: 77.5946
+□ Click "Send"
+□ Location is now set to Bangalore, India
+
+STEP 8: TEST THE APP
+═══════════════════════════════════════════════════════════════════
+□ App opens to Login screen
+□ Enter test phone number
+□ Click "Send OTP"
+□ Enter OTP code
+□ Navigate to Map screen
+□ Navigate to Borewell Input screen
+□ Check location shows "Available"
+□ Check geohash is displayed
+□ Navigate to History screen
+□ Navigate to AI Guide screen
+□ Navigate to Alerts screen
+
+═══════════════════════════════════════════════════════════════════
+🔧 CONFIGURATION FILES VERIFICATION
+═══════════════════════════════════════════════════════════════════
+
+□ app/google-services.json exists and is valid
+□ local.properties contains MAPS_API_KEY
+□ app/src/main/java/com/antharjala/watch/core/network/NetworkModule.kt
+  has BASE_URL = "https://zakqsyapx5.execute-api.ap-south-1.amazonaws.com/"
+
+═══════════════════════════════════════════════════════════════════
+🐛 COMMON ISSUES & SOLUTIONS
+═══════════════════════════════════════════════════════════════════
+
+ISSUE: "google-services.json is missing"
+SOLUTION: Add valid google-services.json to app/ directory
+
+ISSUE: "MAPS_API_KEY not found"
+SOLUTION: Add to local.properties: MAPS_API_KEY=your_key
+
+ISSUE: "Gradle sync failed"
+SOLUTION: File → Invalidate Caches → Invalidate and Restart
+
+ISSUE: App crashes on launch
+SOLUTION: Check Logcat (bottom panel) for error messages
+
+ISSUE: Location not working
+SOLUTION: Set location in emulator Extended Controls → Location
+
+ISSUE: Maps not loading
+SOLUTION: Verify MAPS_API_KEY and enable Maps SDK in Google Cloud
+
+ISSUE: Backend connection fails
+SOLUTION: Check internet connection and verify API URL in NetworkModule.kt
+
+═══════════════════════════════════════════════════════════════════
+✅ SUCCESS INDICATORS
+═══════════════════════════════════════════════════════════════════
+
+□ App launches without crashes
+□ Login screen displays correctly
+□ Can navigate between screens
+□ Location shows as "Available" in Borewell Input screen
+□ Geohash is displayed (e.g., "tdr3u6")
+□ Connection status shows "Connected" (green)
+□ No red errors in Logcat
+
+═══════════════════════════════════════════════════════════════════
+📊 BACKEND CONNECTION TEST
+═══════════════════════════════════════════════════════════════════
+
+□ Open app
+□ Look for "Connection Status" card on screens
+□ Should show: "Connected" with green indicator
+□ API Gateway URL: https://zakqsyapx5.execute-api.ap-south-1.amazonaws.com
+□ Region: ap-south-1 (Mumbai)
+
+═══════════════════════════════════════════════════════════════════
+🎯 NEXT STEPS AFTER SUCCESSFUL INSTALLATION
+═══════════════════════════════════════════════════════════════════
+
+□ Test phone authentication with Firebase test numbers
+□ Log sample borewell data
+□ Test offline mode (disable emulator internet)
+□ Test sync when internet is restored
+□ Test location changes in emulator
+□ Verify data reaches AWS backend
+□ Check CloudWatch logs for API calls
+
+═══════════════════════════════════════════════════════════════════
+📞 SUPPORT
+═══════════════════════════════════════════════════════════════════
+
+For detailed instructions, see:
+- README.md (main documentation)
+- WINDOWS_DEPLOYMENT_GUIDE.md (backend deployment)
+- AWS_BACKEND_DEPLOYMENT_GUIDE.md (AWS setup)
+
+═══════════════════════════════════════════════════════════════════

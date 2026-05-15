@@ -1,0 +1,22 @@
+{
+  "name": "ai-realtime-engine",
+  "version": "1.0.0",
+  "description": "Advanced AI engine with multi-model ensemble and real-time streaming",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0",
+    "aws-sdk": "^2.1691.0",
+    "ngeohash": "^0.6.3"
+  },
+  "keywords": [
+    "ai",
+    "groundwater",
+    "bedrock",
+    "gemini"
+  ],
+  "author": "",
+  "license": "MIT"
+}

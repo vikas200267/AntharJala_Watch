@@ -1,0 +1,20 @@
+{
+  "name": "anthar-jala-cdk",
+  "version": "1.0.0",
+  "description": "AWS CDK deployment for Anthar-Jala Watch",
+  "scripts": {
+    "build": "tsc",
+    "deploy": "cdk deploy --all --require-approval never",
+    "destroy": "cdk destroy --all",
+    "synth": "cdk synth"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "^2.100.0",
+    "constructs": "^10.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "aws-cdk": "^2.100.0"
+  }
+}

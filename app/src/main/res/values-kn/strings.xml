@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ಅಂತರ್ಜಲ ವಾಚ್</string>
+    <string name="login_title">ಲಾಗಿನ್</string>
+    <string name="phone_number">ಫೋನ್ ಸಂಖ್ಯೆ</string>
+    <string name="send_otp">OTP ಕಳುಹಿಸಿ</string>
+    <string name="verify_otp">OTP ಪರಿಶೀಲಿಸಿ</string>
+    <string name="enter_verification_code">ಪರಿಶೀಲನಾ ಕೋಡ್ ನಮೂದಿಸಿ</string>
+    <string name="depth_label">ಆಳ (ಮೀಟರ್)</string>
+    <string name="yield_label">ಇಳುವರಿ (ಲೀಟರ್/ಗಂಟೆ)</string>
+    <string name="submit">ಸಲ್ಲಿಸಿ</string>
+    <string name="ai_recommendations">AI ಶಿಫಾರಸುಗಳು</string>
+    <string name="water_alerts">ನೀರಿನ ಎಚ್ಚರಿಕೆಗಳು</string>
+    <string name="borewell_data">ಬೋರ್‌ವೆಲ್ ಮಾಹಿತಿ</string>
+    <string name="location_permission">ಸ್ಥಳ ಅನುಮತಿ</string>
+    <string name="grant_location_permission">ಸ್ಥಳ ಅನುಮತಿ ನೀಡಿ</string>
+    <string name="data_saved_offline">ಮಾಹಿತಿ ಆಫ್‌ಲೈನ್‌ನಲ್ಲಿ ಉಳಿಸಲಾಗಿದೆ</string>
+    <string name="sync_successful">ಸಿಂಕ್ ಯಶಸ್ವಿಯಾಗಿದೆ</string>
+    <string name="water_intelligence">ನೀರಿನ ಬುದ್ಧಿವಂತಿಕೆ</string>
+    <string name="powered_by_ai">AI ನಿಂದ ಚಾಲಿತ</string>
+    <string name="analyzing_data">ನಿಮ್ಮ ನೀರಿನ ಮಾಹಿತಿಯನ್ನು ವಿಶ್ಲೇಷಿಸಲಾಗುತ್ತಿದೆ...</string>
+    <string name="water_confidence_score">ನೀರಿನ ವಿಶ್ವಾಸ ಅಂಕ</string>
+    <string name="water_security">ನೀರಿನ ಭದ್ರತೆ</string>
+    <string name="prediction_20_days">20-ದಿನಗಳ ಮುನ್ನೋಟ</string>
+    <string name="depth_change">ಆಳದ ಬದಲಾವಣೆ</string>
+    <string name="yield_change">ಇಳುವರಿ ಬದಲಾವಣೆ</string>
+    <string name="implementation_steps">ಅನುಷ್ಠಾನ ಹಂತಗಳು</string>
+    <string name="materials_cost">ವಸ್ತುಗಳು ಮತ್ತು ವೆಚ್ಚ</string>
+    <string name="materials_needed">ಅಗತ್ಯವಿರುವ ವಸ್ತುಗಳು</string>
+    <string name="estimated_cost">ಅಂದಾಜು ವೆಚ್ಚ</string>
+    <string name="time_required">ಅಗತ್ಯವಿರುವ ಸಮಯ</string>
+    <string name="retry">ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ</string>
+    <string name="no_active_alerts">ಯಾವುದೇ ಸಕ್ರಿಯ ಎಚ್ಚರಿಕೆಗಳಿಲ್ಲ</string>
+    <string name="water_conditions_stable">ನಿಮ್ಮ ಪ್ರದೇಶದಲ್ಲಿ ನೀರಿನ ಪರಿಸ್ಥಿತಿಗಳು ಸ್ಥಿರವಾಗಿವೆ</string>
+    <string name="action_required">ಕ್ರಮ ಅಗತ್ಯ</string>
+</resources>
